@@ -1,6 +1,19 @@
 from tkinter import *
 
 
+def check_button():
+    cont=0
+    for i in optionsBox:
+        if optionsVariables[cont].get() == 1:
+            optionsBox[cont].config(state=NORMAL)
+            if optionsBox[cont].get() == "0":
+                optionsBox[cont].delete(0,END)
+                optionsBox[cont].focus()
+        else:
+            optionsBox[cont].config(state=DISABLED)
+            optionsText[cont].set("0")
+        cont += 1
+
 optionList = ["PUSCH","RSSI","Sin MIMO Rank2","MIMO Rank2 Bajo","Sin MIMO Rank4","MIMO Rank4 Bajo","CA PCELL",
               "CA SCELL","SRVCC","Sin tráfico 5G"]
 buttonsList = ["Write","Save","Clean"]
@@ -55,7 +68,7 @@ for option in optionList:
     # Check Buttons
     optionsVariables.append("")
     optionsVariables[cont] = IntVar()
-    option = Checkbutton(optionsPanel,text=option,font=("Arial",15,"bold"),onvalue=1,offvalue=0, variable=optionsVariables[cont])
+    option = Checkbutton(optionsPanel,text=option,font=("Arial",15,"bold"),onvalue=1,offvalue=0, variable=optionsVariables[cont],command=check_button)
     option.grid(row=cont, column=0, sticky=W)  
     
     # Option Box 

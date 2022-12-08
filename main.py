@@ -3,16 +3,24 @@ from tkinter import *
 
 def check_button():
     cont=0
-    for i in optionsBox:
+    for i in techBox:
         if optionsVariables[cont].get() == 1:
-            optionsBox[cont].config(state=NORMAL)
-            if optionsBox[cont].get() == "0":
-                optionsBox[cont].delete(0,END)
-                optionsBox[cont].focus()
+            sectorBox[cont].config(state=NORMAL)
+            if sectorBox[cont].get() == "0":
+                sectorBox[cont].delete(0,END)
+                sectorBox[cont].focus()
+            
+            techBox[cont].config(state=NORMAL)
+            if techBox[cont].get() == "0":
+                techBox[cont].delete(0,END)
+                techBox[cont].focus()
         else:
-            optionsBox[cont].config(state=DISABLED)
-            optionsText[cont].set("0")
+            techBox[cont].config(state=DISABLED)
+            techText[cont].set("0")
+            sectorBox[cont].config(state=DISABLED)
+            sectorText[cont].set("0")
         cont += 1
+
 
 optionList = ["PUSCH","RSSI","Sin MIMO Rank2","MIMO Rank2 Bajo","Sin MIMO Rank4","MIMO Rank4 Bajo","CA PCELL",
               "CA SCELL","SRVCC","Sin tráfico 5G"]
@@ -22,7 +30,7 @@ buttonsList = ["Write","Save","Clean"]
 app = Tk()
 
 # Windows configuration
-app.geometry("900x600+0+0")
+app.geometry("910x600+0+0")
 app.resizable(0,0)
 app.title("Mail generator")
 app.config(bg="white")
@@ -41,7 +49,7 @@ title_name_2.grid(row=0,column=1)
 leftPanel = Frame(app,bd=2,relief=FLAT)
 leftPanel.pack(side=LEFT)
 
-optionsPanel = LabelFrame(leftPanel,text="Options", font=("Dosis",19,"bold"),bd=1,relief=FLAT,fg="black")
+optionsPanel = LabelFrame(leftPanel,text="Options\t\tTech  Sectors", font=("Dosis",16,"bold"),bd=1,relief=FLAT,fg="black")
 optionsPanel.pack(side=LEFT)
 
 # Right Panel
@@ -59,8 +67,10 @@ buttonsPanel.pack()
 
 # Option Panel Configuration
 optionsVariables= []
-optionsBox = []
-optionsText = []
+techBox = []
+techText = []
+sectorBox = []
+sectorText = []
 
 cont = 0
 
@@ -72,12 +82,19 @@ for option in optionList:
     option.grid(row=cont, column=0, sticky=W)  
     
     # Option Box 
-    optionsBox.append("")
-    optionsText.append("")
-    optionsText[cont] =StringVar()
-    optionsText[cont].set("0")
-    optionsBox[cont] = Entry(optionsPanel,font=("Arial",15,"bold"),bd=1,width=15,state=DISABLED,textvariable=optionsText[cont])
-    optionsBox[cont].grid(row=cont,column=1)
+    techBox.append("")
+    techText.append("")
+    techText[cont] =StringVar()
+    techText[cont].set("0")
+    techBox[cont] = Entry(optionsPanel,font=("Arial",15,"bold"),bd=1,width=5,state=DISABLED,textvariable=techText[cont])
+    techBox[cont].grid(row=cont,column=1)
+
+    sectorBox.append("")
+    sectorText.append("")
+    sectorText[cont] =StringVar()
+    sectorText[cont].set("0")
+    sectorBox[cont] = Entry(optionsPanel,font=("Arial",15,"bold"),bd=1,width=11,state=DISABLED,textvariable=sectorText[cont])
+    sectorBox[cont].grid(row=cont,column=2)
 
     cont +=1
 

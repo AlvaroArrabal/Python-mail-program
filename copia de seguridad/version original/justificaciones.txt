@@ -1,0 +1,7 @@
+Site= CAT7121
+ -Problema= PUSCH
+ TecAfectada= M
+ Sectores= 1 2
+ -Problema= PUSCH
+ TecAfectada= N
+ Sectores= 3

@@ -406,6 +406,10 @@ def write_mail():
                 mailText.insert(END," Por favor ¿podrían comprobar que la configuración X2 es correcta?\n\n\n")
             
             word.add_paragraph(textoAux)
+            if optionList[cont] == "PUSCH":
+                word.add_picture(".\\pictures\\pusch.png")
+            if optionList[cont] == "RSSI":
+                word.add_picture(".\\pictures\\rssi.png")
         cont += 1
     word.save("ejemplo.docx")
 

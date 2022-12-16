@@ -88,13 +88,16 @@ def write_mail():
             if optionList[cont] == "PUSCH":
                 mailText.insert(END,f"{textoPUSCH}")
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
+                techaux = techText[cont].get().upper().split()
+                cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
                     mailText.insert(END," en el sector")
                 else:
                     mailText.insert(END," en los sectores")
                 
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()

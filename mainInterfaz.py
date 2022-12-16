@@ -14,6 +14,7 @@ textoMIMORank4Bajo = "- Valores bajos de MIMO Rank4"
 textoSinMIMORank4 = "- No hay valores de MIMO Rank4"
 textoSinCAPCELL = "- No hay valores de CA Pcell"
 textoSinCASCELL = "- No hay valores de CA Scell"
+word = Document()
 
 def check_button():
     cont=0
@@ -73,13 +74,13 @@ def saveCA():
 def write_mail():
     mailText.delete(1.0 ,END)
     now = time.strftime("%X")
-    word = Document()
+    
     if now < str(12):
         mailText.insert(END,"Buenos días,\n")
         word.add_paragraph("Buenos días,")
     else:
         mailText.insert(END,"Buenas tardes,\n")
-        word.add_paragraph("Buenos tardes,")
+        word.add_paragraph("Buenas tardes,")
 
     mailText.insert(END,f"Hemos detectado las siguientes inconsistencias en el site {siteName.get().upper()}:\n")
     word.add_paragraph(f"Hemos detectado las siguientes inconsistencias en el site {siteName.get().upper()}:")
@@ -398,21 +399,34 @@ def write_mail():
                     cont2 += 1
 
             if optionList[cont] == "PUSCH" or optionList[cont] == "RSSI" or optionList[cont] == "Sin MIMO Rank2" or optionList[cont] == "Sin MIMO Rank4" or optionList[cont] == "MIMO Rank2 Bajo" or optionList[cont] == "MIMO Rank4 Bajo":
-                mailText.insert(END," Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?\n\n\n")
+                mailText.insert(END," Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?\n\n")
                 textoAux += " Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?"
             if optionList[cont] == "CA PCELL" or optionList[cont] == "CA SCELL" or optionList[cont] == "SRVCC":
-                mailText.insert(END," Por favor ¿podrían cargar el script adjunto?\n\n\n")
+                mailText.insert(END," Por favor ¿podrían cargar el script adjunto?\n\n")
             if optionList[cont] == "Sin tráfico 5G":
-                mailText.insert(END," Por favor ¿podrían comprobar que la configuración X2 es correcta?\n\n\n")
+                mailText.insert(END," Por favor ¿podrían comprobar que la configuración X2 es correcta?\n\n")
             
             word.add_paragraph(textoAux)
             if optionList[cont] == "PUSCH":
-                word.add_picture(".\\pictures\\pusch.png")
+                try:
+                    word.add_picture(".\\pictures\\pusch.png")
+                    mailText.insert(END,"\t-> {PUSCH image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: PUSCH")
             if optionList[cont] == "RSSI":
-                word.add_picture(".\\pictures\\rssi.png")
+                try:
+                    word.add_picture(".\\pictures\\rssi.png")
+                    mailText.insert(END,"\t-> {RSSI image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: RSSI")
         cont += 1
-    word.save("ejemplo.docx")
+    
 
+def save():
+    wordName = siteName.get().upper() + " - email.docx"
+    word.save(wordName)
+    messagebox.showinfo("Information","Failure to load image: RSSI")
+    
 
 def clean():
     mailText.delete(1.0,END)
@@ -562,7 +576,7 @@ for button in buttonsList:
     columns += 1
 
 buttonsAux[0].config(command = write_mail)
-
+buttonsAux[1].config(command = save)
 buttonsAux[2].config(command = clean)
 
 # Mail Panel Configuration

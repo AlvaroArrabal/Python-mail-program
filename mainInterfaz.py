@@ -552,7 +552,6 @@ def write_mail():
                     
         cont += 1
     
-
 def save():
     wordName = siteName.get().upper() + " - email.docx"
 
@@ -600,6 +599,9 @@ app.geometry("960x610+0+0")
 app.resizable(0,0)
 app.title("C44 - Mail generator")
 app.config(bg="white")
+small_icon = PhotoImage(file=".\\images\\iconC44.png")
+big_icon = PhotoImage(file=".\\images\\logoC44.png")
+app.iconphoto(False, big_icon, small_icon)
 
 # App TOP
 topPanel = Frame(app,bd=2,relief=FLAT)

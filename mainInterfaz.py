@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from modules import SRVCC,CA
 import time
-
+from docx import Document
 
 textoPUSCH = "- Valores elevados de PUSCH"
 textoRSSI = "- Valores elevados de RSSI"
@@ -14,6 +14,7 @@ textoMIMORank4Bajo = "- Valores bajos de MIMO Rank4"
 textoSinMIMORank4 = "- No hay valores de MIMO Rank4"
 textoSinCAPCELL = "- No hay valores de CA Pcell"
 textoSinCASCELL = "- No hay valores de CA Scell"
+word = Document()
 
 def check_button():
     cont=0
@@ -73,20 +74,24 @@ def saveCA():
 def write_mail():
     mailText.delete(1.0 ,END)
     now = time.strftime("%X")
-
+    
     if now < str(12):
         mailText.insert(END,"Buenos días,\n")
+        word.add_paragraph("Buenos días,")
     else:
         mailText.insert(END,"Buenas tardes,\n")
+        word.add_paragraph("Buenas tardes,")
 
     mailText.insert(END,f"Hemos detectado las siguientes inconsistencias en el site {siteName.get().upper()}:\n")
-
+    word.add_paragraph(f"Hemos detectado las siguientes inconsistencias en el site {siteName.get().upper()}:")
     cont = 0
     for i in techText:
         if i.get() != "0":
-            
+            textoAux = ""
             if optionList[cont] == "PUSCH":
+                textoAux = ""
                 mailText.insert(END,f"{textoPUSCH}")
+                textoAux += f"{textoPUSCH}"
                 listAux = sectorText[cont].get().split("/")
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
@@ -94,9 +99,10 @@ def write_mail():
                 
                 if len(listAux) == 1 and len(sectorAux) == 1:
                     mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
                 else:
                     mailText.insert(END," en los sectores")
-                
+                    textoAux += " en los sectores"
                 
 
                 for j in techaux:
@@ -106,28 +112,38 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
-                       
+                     
                 
             if optionList[cont] == "RSSI":
+                textoAux = ""
                 mailText.insert(END,f"{textoRSSI}")
+                textoAux += f"{textoRSSI}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -136,26 +152,36 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
             if optionList[cont] == "Sin MIMO Rank2":
+                textoAux = ""
                 mailText.insert(END,f"{textoSinMIMORank2}")
+                textoAux += f"{textoSinMIMORank2}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -164,27 +190,37 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
 
             if optionList[cont] == "Sin MIMO Rank4":
+                textoAux = ""
                 mailText.insert(END,f"{textoSinMIMORank4}")
+                textoAux += f"{textoSinMIMORank4}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -193,27 +229,37 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
 
             if optionList[cont] == "MIMO Rank2 Bajo":
+                textoAux = ""
                 mailText.insert(END,f"{textoMIMORank2Bajo}")
+                textoAux += f"{textoMIMORank2Bajo}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -222,27 +268,37 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
 
             if optionList[cont] == "MIMO Rank4 Bajo":
+                textoAux = ""
                 mailText.insert(END,f"{textoMIMORank4Bajo}")
+                textoAux += f"{textoMIMORank4Bajo}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -251,27 +307,37 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
 
             if optionList[cont] == "CA PCELL":
+                textoAux = ""
                 mailText.insert(END,f"{textoSinCAPCELL}")
+                textoAux += f"{textoSinCAPCELL}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -280,27 +346,37 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
             
             if optionList[cont] == "CA SCELL":
+                textoAux = ""
                 mailText.insert(END,f"{textoSinCASCELL}")
+                textoAux += f"{textoSinCASCELL}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -309,27 +385,37 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
             
             if optionList[cont] == "SRVCC":
+                textoAux = ""
                 mailText.insert(END,f"{textoSRVCC}")
+                textoAux += f"{textoSRVCC}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -338,27 +424,37 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
             
             if optionList[cont] == "Sin tráfico 5G":
+                textoAux = ""
                 mailText.insert(END,f"{textoTrafico5G}")
+                textoAux += f"{textoTrafico5G}"
                 listAux = sectorText[cont].get().split("/")
-                if len(listAux) == 1:
-                    mailText.insert(END," en el sector")
-                else:
-                    mailText.insert(END," en los sectores")
-                
                 techaux = techText[cont].get().upper().split()
                 cont2 = 0
+                sectorAux = listAux[0].split()
+                
+                if len(listAux) == 1 and len(sectorAux) == 1:
+                    mailText.insert(END," en el sector")
+                    textoAux += " en el sector"
+                else:
+                    mailText.insert(END," en los sectores")
+                    textoAux += " en los sectores"
+                
 
                 for j in techaux:
                     sectorNumbers = listAux[cont2].split()
@@ -367,24 +463,105 @@ def write_mail():
                     cont3 = 0
                     for k in sectorNumbers:
                         mailText.insert(END,f" {j}{k}")
+                        textoAux += f" {j}{k}"
                         #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
                         if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,f",")
+                            mailText.insert(END,",")
+                            textoAux += ","
                         else:
                             if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,f",")
+                                mailText.insert(END,",")
+                                textoAux += ","
                             else:
-                                mailText.insert(END,f".")
+                                mailText.insert(END,".")
+                                textoAux += "."
                         cont3 += 1
                     cont2 += 1
 
             if optionList[cont] == "PUSCH" or optionList[cont] == "RSSI" or optionList[cont] == "Sin MIMO Rank2" or optionList[cont] == "Sin MIMO Rank4" or optionList[cont] == "MIMO Rank2 Bajo" or optionList[cont] == "MIMO Rank4 Bajo":
-                mailText.insert(END," Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?\n\n\n")
+                mailText.insert(END," Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?\n\n")
+                textoAux += " Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?"
             if optionList[cont] == "CA PCELL" or optionList[cont] == "CA SCELL" or optionList[cont] == "SRVCC":
-                mailText.insert(END," Por favor ¿podrían cargar el script adjunto?\n\n\n")
+                mailText.insert(END," Por favor ¿podrían cargar el script adjunto?\n\n")
+                textoAux += " Por favor ¿podrían cargar el script adjunto?"
             if optionList[cont] == "Sin tráfico 5G":
-                mailText.insert(END," Por favor ¿podrían comprobar que la configuración X2 es correcta?\n\n\n")
+                mailText.insert(END," Por favor ¿podrían comprobar que la configuración X2 es correcta?\n\n")
+                textoAux += " Por favor ¿podrían comprobar que la configuración X2 es correcta?"
+            
+            word.add_paragraph(textoAux)
+            if optionList[cont] == "PUSCH":
+                try:
+                    word.add_picture(".\\pictures\\pusch.png")
+                    mailText.insert(END,"\t-> {PUSCH image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: PUSCH")
+            if optionList[cont] == "RSSI":
+                try:
+                    word.add_picture(".\\pictures\\rssi.png")
+                    mailText.insert(END,"\t-> {RSSI image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: RSSI")
+            if optionList[cont] == "Sin MIMO Rank2":
+                try:
+                    word.add_picture(".\\pictures\\sinmimorank2.png")
+                    mailText.insert(END,"\t-> {MIMO Rank2 image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: Sin MIMO Rank2")
+            if optionList[cont] == "Sin MIMO Rank4":
+                try:
+                    word.add_picture(".\\pictures\\sinmimorank4.png")
+                    mailText.insert(END,"\t-> {MIMO Rank4 image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: Sin MIMO Rank4")
+            if optionList[cont] == "MIMO Rank2 Bajo":
+                try:
+                    word.add_picture(".\\pictures\\mimorank2bajo.png")
+                    mailText.insert(END,"\t-> {MIMO Rank2 image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: MIMO Rank2 Bajo")
+            if optionList[cont] == "MIMO Rank4 Bajo":
+                try:
+                    word.add_picture(".\\pictures\\mimorank4bajo.png")
+                    mailText.insert(END,"\t-> {MIMO Rank4 image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: MIMO Rank4 Bajo")
+            if optionList[cont] == "CA PCELL":
+                try:
+                    word.add_picture(".\\pictures\\capcell.png")
+                    mailText.insert(END,"\t-> {CA PCELL image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: CA PCELL")
+            if optionList[cont] == "CA SCELL":
+                try:
+                    word.add_picture(".\\pictures\\cascell.png")
+                    mailText.insert(END,"\t-> {CA SCELL image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: CA SCELL")
+            if optionList[cont] == "SRVCC":
+                try:
+                    word.add_picture(".\\pictures\\srvcc.png")
+                    mailText.insert(END,"\t-> {SRVCC image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: SRVCC")
+            if optionList[cont] == "Sin tráfico 5G":
+                try:
+                    word.add_picture(".\\pictures\\trafico5g.png")
+                    mailText.insert(END,"\t-> {Sin tráfico 5G image}\n\n")
+                except:
+                    messagebox.showinfo("Information","Failure to load image: Sin tráfico 5G")
+                    
         cont += 1
+    
+
+def save():
+    wordName = siteName.get().upper() + " - email.docx"
+
+    try:
+        word.save(wordName)
+        messagebox.showinfo("Information",f"Doc <{wordName}> successfully saved")
+    except:
+        messagebox.showinfo("Information","Something went wrong :(")
+    
 
 def clean():
     mailText.delete(1.0,END)
@@ -534,7 +711,7 @@ for button in buttonsList:
     columns += 1
 
 buttonsAux[0].config(command = write_mail)
-
+buttonsAux[1].config(command = save)
 buttonsAux[2].config(command = clean)
 
 # Mail Panel Configuration

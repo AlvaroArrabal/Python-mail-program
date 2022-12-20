@@ -126,11 +126,20 @@ def clean():
     for i in optionsVariables:
         i.set(0)
 
-optionList = ["PUSCH","RSSI","Sin MIMO Rank2","MIMO Rank2 Bajo","Sin MIMO Rank4","MIMO Rank4 Bajo","CA PCELL",
-              "CA SCELL","SRVCC","Sin llamadas 4G","Sin tráfico 5G"]
+optionList =[  
+            "PUSCH",
+            "RSSI",
+            "Sin MIMO Rank2",
+            "MIMO Rank2 Bajo",
+            "Sin MIMO Rank4",
+            "MIMO Rank4 Bajo",
+            "CA PCELL",
+            "CA SCELL","SRVCC",
+            "Sin llamadas 4G",
+            "Sin tráfico 5G"
+            ]
 
 buttonsList = ["Write","Save","Clean"]
-
 
 # Initiating the app
 app = Tk()
@@ -179,7 +188,7 @@ srvccPanel.pack(side=BOTTOM)
 caPanel = LabelFrame(bottomPanel,bd=2,relief=FLAT,bg="gray")
 caPanel.pack(side=BOTTOM)
 
-optionsPanel = LabelFrame(leftPanel,text="Options\t\tTech     Sectors", font=("Dosis",15,"bold"),bd=1,relief=FLAT,fg="black")
+optionsPanel = LabelFrame(leftPanel,text="Options\t\t\tTech\tSectors", font=("Dosis",15,"bold"),bd=1,relief=FLAT,fg="black")
 optionsPanel.pack(side=LEFT)
 
 
@@ -201,8 +210,9 @@ buttonsPanel.pack()
 
 on_image = PhotoImage(width=44, height=20)
 off_image = PhotoImage(width=44, height=20)
-on_image.put(("green",), to=(0, 0, 23,23))
-off_image.put(("red",), to=(24, 0, 47, 23))
+on_image.put(("darkgreen",), to=(0, 0, 22,23))
+off_image.put(("crimson",), to=(24, 0, 47, 24))
+
 
 optionsVariables= []
 techBox = []

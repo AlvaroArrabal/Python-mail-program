@@ -82,6 +82,7 @@ def write_mail():
 
     mailText.insert(END,f"Hemos detectado las siguientes inconsistencias en el site {siteName.get().upper()}:\n")
     word.add_paragraph(f"Hemos detectado las siguientes inconsistencias en el site {siteName.get().upper()}:")
+
     cont = 0
     for i in techText:
         if i.get() != "0":
@@ -89,9 +90,7 @@ def write_mail():
             textoAux = justification.insert(sectorText[cont],techText[cont],optionList[cont])
             mailText.insert(END,textoAux)
             word.add_paragraph(textoAux)
-
             insert_photo(optionList[cont])
-                   
         cont += 1
     
 def save():

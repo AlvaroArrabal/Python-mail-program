@@ -1,19 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
-from modules import SRVCC,CA
+from modules import SRVCC,CA,justification
 import time
 from docx import Document
 
-textoPUSCH = "- Valores elevados de PUSCH"
-textoRSSI = "- Valores elevados de RSSI"
-textoSRVCC = "- No hay intentos de SRVCC"
-textoTrafico5G = "- No hay valores de tráfico 5G"
-textoMIMORank2Bajo = "- Valores bajos de MIMO Rank2"
-textoSinMIMORank2 = "- No hay valores de MIMO Rank2"
-textoMIMORank4Bajo = "- Valores bajos de MIMO Rank4"
-textoSinMIMORank4 = "- No hay valores de MIMO Rank4"
-textoSinCAPCELL = "- No hay valores de CA Pcell"
-textoSinCASCELL = "- No hay valores de CA Scell"
 word = Document()
 
 def check_button():
@@ -71,6 +61,14 @@ def saveCA():
     except:
         messagebox.showinfo("Information","Something went wrong :(")
 
+def insert_photo(name):
+    name.lower()
+    try:
+        word.add_picture(f".\\pictures\\{name}.png")
+        mailText.insert(END,f"\t-> {name} image\n\n")
+    except:
+        messagebox.showinfo("Information",f"Failure to load image: {name}")
+
 def write_mail():
     mailText.delete(1.0 ,END)
     now = time.strftime("%X")
@@ -84,472 +82,15 @@ def write_mail():
 
     mailText.insert(END,f"Hemos detectado las siguientes inconsistencias en el site {siteName.get().upper()}:\n")
     word.add_paragraph(f"Hemos detectado las siguientes inconsistencias en el site {siteName.get().upper()}:")
+
     cont = 0
     for i in techText:
         if i.get() != "0":
             textoAux = ""
-            if optionList[cont] == "PUSCH":
-                textoAux = ""
-                mailText.insert(END,f"{textoPUSCH}")
-                textoAux += f"{textoPUSCH}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-                     
-                
-            if optionList[cont] == "RSSI":
-                textoAux = ""
-                mailText.insert(END,f"{textoRSSI}")
-                textoAux += f"{textoRSSI}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-            if optionList[cont] == "Sin MIMO Rank2":
-                textoAux = ""
-                mailText.insert(END,f"{textoSinMIMORank2}")
-                textoAux += f"{textoSinMIMORank2}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-
-            if optionList[cont] == "Sin MIMO Rank4":
-                textoAux = ""
-                mailText.insert(END,f"{textoSinMIMORank4}")
-                textoAux += f"{textoSinMIMORank4}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-
-            if optionList[cont] == "MIMO Rank2 Bajo":
-                textoAux = ""
-                mailText.insert(END,f"{textoMIMORank2Bajo}")
-                textoAux += f"{textoMIMORank2Bajo}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-
-            if optionList[cont] == "MIMO Rank4 Bajo":
-                textoAux = ""
-                mailText.insert(END,f"{textoMIMORank4Bajo}")
-                textoAux += f"{textoMIMORank4Bajo}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-
-            if optionList[cont] == "CA PCELL":
-                textoAux = ""
-                mailText.insert(END,f"{textoSinCAPCELL}")
-                textoAux += f"{textoSinCAPCELL}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-            
-            if optionList[cont] == "CA SCELL":
-                textoAux = ""
-                mailText.insert(END,f"{textoSinCASCELL}")
-                textoAux += f"{textoSinCASCELL}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-            
-            if optionList[cont] == "SRVCC":
-                textoAux = ""
-                mailText.insert(END,f"{textoSRVCC}")
-                textoAux += f"{textoSRVCC}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-            
-            if optionList[cont] == "Sin tráfico 5G":
-                textoAux = ""
-                mailText.insert(END,f"{textoTrafico5G}")
-                textoAux += f"{textoTrafico5G}"
-                listAux = sectorText[cont].get().split("/")
-                techaux = techText[cont].get().upper().split()
-                cont2 = 0
-                sectorAux = listAux[0].split()
-                
-                if len(listAux) == 1 and len(sectorAux) == 1:
-                    mailText.insert(END," en el sector")
-                    textoAux += " en el sector"
-                else:
-                    mailText.insert(END," en los sectores")
-                    textoAux += " en los sectores"
-                
-
-                for j in techaux:
-                    sectorNumbers = listAux[cont2].split()
-                    #print(f"cont2 - {cont2} and {len(techaux)}")
-                    
-                    cont3 = 0
-                    for k in sectorNumbers:
-                        mailText.insert(END,f" {j}{k}")
-                        textoAux += f" {j}{k}"
-                        #print(f"{cont3} - {len(sectorNumbers)} - {sectorNumbers[len(sectorNumbers)-1]} -{k} - {cont2} - {len(techaux)-1}")
-                        if cont3 < len(sectorNumbers)   and cont2 != len(techaux)-1:
-                            mailText.insert(END,",")
-                            textoAux += ","
-                        else:
-                            if cont3 < len(sectorNumbers)-1:
-                                mailText.insert(END,",")
-                                textoAux += ","
-                            else:
-                                mailText.insert(END,".")
-                                textoAux += "."
-                        cont3 += 1
-                    cont2 += 1
-
-            if optionList[cont] == "PUSCH" or optionList[cont] == "RSSI" or optionList[cont] == "Sin MIMO Rank2" or optionList[cont] == "Sin MIMO Rank4" or optionList[cont] == "MIMO Rank2 Bajo" or optionList[cont] == "MIMO Rank4 Bajo":
-                mailText.insert(END," Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?\n\n")
-                textoAux += " Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?"
-            if optionList[cont] == "CA PCELL" or optionList[cont] == "CA SCELL" or optionList[cont] == "SRVCC":
-                mailText.insert(END," Por favor ¿podrían cargar el script adjunto?\n\n")
-                textoAux += " Por favor ¿podrían cargar el script adjunto?"
-            if optionList[cont] == "Sin tráfico 5G":
-                mailText.insert(END," Por favor ¿podrían comprobar que la configuración X2 es correcta?\n\n")
-                textoAux += " Por favor ¿podrían comprobar que la configuración X2 es correcta?"
-            
+            textoAux = justification.insert(sectorText[cont],techText[cont],optionList[cont])
+            mailText.insert(END,textoAux)
             word.add_paragraph(textoAux)
-            if optionList[cont] == "PUSCH":
-                try:
-                    word.add_picture(".\\pictures\\pusch.png")
-                    mailText.insert(END,"\t-> {PUSCH image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: PUSCH")
-            if optionList[cont] == "RSSI":
-                try:
-                    word.add_picture(".\\pictures\\rssi.png")
-                    mailText.insert(END,"\t-> {RSSI image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: RSSI")
-            if optionList[cont] == "Sin MIMO Rank2":
-                try:
-                    word.add_picture(".\\pictures\\sinmimorank2.png")
-                    mailText.insert(END,"\t-> {MIMO Rank2 image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: Sin MIMO Rank2")
-            if optionList[cont] == "Sin MIMO Rank4":
-                try:
-                    word.add_picture(".\\pictures\\sinmimorank4.png")
-                    mailText.insert(END,"\t-> {MIMO Rank4 image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: Sin MIMO Rank4")
-            if optionList[cont] == "MIMO Rank2 Bajo":
-                try:
-                    word.add_picture(".\\pictures\\mimorank2bajo.png")
-                    mailText.insert(END,"\t-> {MIMO Rank2 image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: MIMO Rank2 Bajo")
-            if optionList[cont] == "MIMO Rank4 Bajo":
-                try:
-                    word.add_picture(".\\pictures\\mimorank4bajo.png")
-                    mailText.insert(END,"\t-> {MIMO Rank4 image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: MIMO Rank4 Bajo")
-            if optionList[cont] == "CA PCELL":
-                try:
-                    word.add_picture(".\\pictures\\capcell.png")
-                    mailText.insert(END,"\t-> {CA PCELL image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: CA PCELL")
-            if optionList[cont] == "CA SCELL":
-                try:
-                    word.add_picture(".\\pictures\\cascell.png")
-                    mailText.insert(END,"\t-> {CA SCELL image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: CA SCELL")
-            if optionList[cont] == "SRVCC":
-                try:
-                    word.add_picture(".\\pictures\\srvcc.png")
-                    mailText.insert(END,"\t-> {SRVCC image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: SRVCC")
-            if optionList[cont] == "Sin tráfico 5G":
-                try:
-                    word.add_picture(".\\pictures\\trafico5g.png")
-                    mailText.insert(END,"\t-> {Sin tráfico 5G image}\n\n")
-                except:
-                    messagebox.showinfo("Information","Failure to load image: Sin tráfico 5G")
-                    
+            insert_photo(optionList[cont])
         cont += 1
     
 def save():
@@ -585,11 +126,20 @@ def clean():
     for i in optionsVariables:
         i.set(0)
 
-optionList = ["PUSCH","RSSI","Sin MIMO Rank2","MIMO Rank2 Bajo","Sin MIMO Rank4","MIMO Rank4 Bajo","CA PCELL",
-              "CA SCELL","SRVCC","Sin llamadas 4G","Sin tráfico 5G"]
+optionList =[  
+            "PUSCH",
+            "RSSI",
+            "Sin MIMO Rank2",
+            "MIMO Rank2 Bajo",
+            "Sin MIMO Rank4",
+            "MIMO Rank4 Bajo",
+            "CA PCELL",
+            "CA SCELL","SRVCC",
+            "Sin llamadas 4G",
+            "Sin tráfico 5G"
+            ]
 
 buttonsList = ["Write","Save","Clean"]
-
 
 # Initiating the app
 app = Tk()
@@ -607,8 +157,6 @@ app.iconphoto(False, big_icon, small_icon)
 topPanel = Frame(app,bd=2,relief=FLAT)
 topPanel.pack(side=TOP)
 
-"""title_name = Label(topPanel,text="C44\t\t\t",fg="black",font=("Dosis",22,"bold"),bg="SlateBlue",width=27) 
-title_name.grid(row=0,column=0)"""
 logo = PhotoImage(file=".\\images\\connect.png")
 title_name = Label(topPanel,image=logo,width=500)
 title_name.grid(row=0,column=0)
@@ -640,7 +188,7 @@ srvccPanel.pack(side=BOTTOM)
 caPanel = LabelFrame(bottomPanel,bd=2,relief=FLAT,bg="gray")
 caPanel.pack(side=BOTTOM)
 
-optionsPanel = LabelFrame(leftPanel,text="Options\t\tTech     Sectors", font=("Dosis",15,"bold"),bd=1,relief=FLAT,fg="black")
+optionsPanel = LabelFrame(leftPanel,text="Options\t\t\tTech\tSectors", font=("Dosis",15,"bold"),bd=1,relief=FLAT,fg="black")
 optionsPanel.pack(side=LEFT)
 
 
@@ -662,8 +210,9 @@ buttonsPanel.pack()
 
 on_image = PhotoImage(width=44, height=20)
 off_image = PhotoImage(width=44, height=20)
-on_image.put(("green",), to=(0, 0, 23,23))
-off_image.put(("red",), to=(24, 0, 47, 23))
+on_image.put(("darkgreen",), to=(0, 0, 22,23))
+off_image.put(("crimson",), to=(24, 0, 47, 24))
+
 
 optionsVariables= []
 techBox = []

@@ -65,7 +65,7 @@ def tercera_parte(site,techCA,tech,sectores,nodo,eNodebID):
 
 def crear_txt_CA(site,techCA,tech,sectores,nodo,eNodebID):
 
-    nombreTXT = "CA - " + site + ".txt"
+    nombreTXT = ".\\scripts\\CA - " + site + " - " + nodo +".txt"
     site = nombre_site(site)
     primeraParte = primera_parte(techCA,tech,sectores,nodo)
     segundaParte = segunda_parte(techCA,tech,sectores,eNodebID,nodo)

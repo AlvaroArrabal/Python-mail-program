@@ -34,13 +34,13 @@ def tercera_parte(tech,node,cells):
                 
     return textoFinal
 
-def crear_txt(tech,node,cells):
+def crear_txt(siteName,tech,node,cells):
     
     primeraParte = primera_parte(tech,node,cells)
     segundaParte = segunda_parte(tech,node,cells)
     terceraParte = tercera_parte(tech,node,cells)
 
-    nombreTXT = "SRVCC - " + node + ".txt"
+    nombreTXT = ".\\scripts\\SRVCC - " + siteName + " - " + node + ".txt"
 
     salida = open(nombreTXT,"w")
 

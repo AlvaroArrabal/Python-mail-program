@@ -27,6 +27,7 @@ def check_button():
         cont += 1
 
 def saveSRVCC():
+    site = siteName.get().upper()
     tech = techTextSRVCC.get().upper()
     node = nodeTextSRVCC.get()
     cells = numberSectorsTextSRVCC.get()
@@ -35,7 +36,7 @@ def saveSRVCC():
         if tech == "0" or node == "0" or cells == "0":
             messagebox.showinfo("Information","Error: Not enough information")
         else:
-            SRVCC.crear_txt(tech,node,int(cells))
+            SRVCC.crear_txt(site,tech,node,int(cells))
             messagebox.showinfo("Information","Completed!")
     except:
         messagebox.showinfo("Information","Something went wrong :(")
@@ -86,7 +87,7 @@ def write_mail():
     cont = 0
     for i in techText:
         if i.get() != "0":
-            textoAux = ""
+            
             textoAux = justification.insert(sectorText[cont],techText[cont],optionList[cont])
             mailText.insert(END,textoAux)
             word.add_paragraph(textoAux)

@@ -91,7 +91,7 @@ def write_mail():
             textoAux = justification.insert(sectorText[cont],techText[cont],optionList[cont])
             mailText.insert(END,textoAux)
             word.add_paragraph(textoAux)
-            insert_photo(optionList[cont])
+            #insert_photo(optionList[cont])
         cont += 1
     
 def save():

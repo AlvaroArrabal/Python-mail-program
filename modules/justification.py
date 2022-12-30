@@ -7,7 +7,8 @@ dic_problems = {"PUSCH" : "- Valores elevados de PUSCH",
                 "MIMO Rank4 Bajo" : "- Valores bajos de MIMO Rank4",
                 "Sin MIMO Rank4" : "- No hay valores de MIMO Rank4",
                 "CA PCELL" : "- No hay valores de CA Pcell",
-                "CA SCELL" : "- No hay valores de CA Scell"}
+                "CA SCELL" : "- No hay valores de CA Scell",
+                "Sin llamadas 4G":"- No hay llamadas iniciadas 4G"}
 
 
 
@@ -41,7 +42,7 @@ def insert(sectors,techs,problem):
             cont3 += 1
         cont2 += 1
     
-    if problem == "PUSCH" or problem == "RSSI" or problem == "Sin MIMO Rank2" or problem == "Sin MIMO Rank4" or problem == "MIMO Rank2 Bajo" or problem == "MIMO Rank4 Bajo":
+    if problem == "PUSCH" or problem == "RSSI" or problem == "Sin MIMO Rank2" or problem == "Sin MIMO Rank4" or problem == "MIMO Rank2 Bajo" or problem == "MIMO Rank4 Bajo" or problem == "Sin llamadas 4G":
         textoAux += " Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?\n\n"
     if problem == "CA PCELL" or problem == "CA SCELL" or problem == "SRVCC":
         textoAux += " Por favor ¿podrían cargar el script adjunto?\n\n"

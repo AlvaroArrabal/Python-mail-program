@@ -10,15 +10,17 @@ def check_button():
     cont=0
     for i in techBox:
         if optionsVariables[cont].get() == 1:
-            sectorBox[cont].config(state=NORMAL)
-            if sectorBox[cont].get() == "0":
-                sectorBox[cont].delete(0,END)
-                sectorBox[cont].focus()
-            
             techBox[cont].config(state=NORMAL)
             if techBox[cont].get() == "0":
                 techBox[cont].delete(0,END)
                 techBox[cont].focus()
+            
+            if optionList[cont] != "Sin datos 5G":
+                sectorBox[cont].config(state=NORMAL)
+                if sectorBox[cont].get() == "0":
+                    sectorBox[cont].delete(0,END)
+                    sectorBox[cont].focus()
+                
         else:
             techBox[cont].config(state=DISABLED)
             techText[cont].set("0")
@@ -137,9 +139,11 @@ optionList =[
             "Sin MIMO Rank4",
             "MIMO Rank4 Bajo",
             "CA PCELL",
-            "CA SCELL","SRVCC",
+            "CA SCELL",
+            "SRVCC",
             "Sin llamadas 4G",
-            "Sin tráfico 5G"
+            "Sin tráfico 5G" ,
+            "Sin datos 5G"
             ]
 
 buttonsList = ["Write","Save","Clean"]
@@ -191,7 +195,7 @@ srvccPanel.pack(side=BOTTOM)
 caPanel = LabelFrame(bottomPanel,bd=2,relief=FLAT,bg="gray")
 caPanel.pack(side=BOTTOM)
 
-optionsPanel = LabelFrame(leftPanel,text="Options\t\t\tTech\tSectors", font=("Dosis",15,"bold"),bd=1,relief=FLAT,fg="black")
+optionsPanel = LabelFrame(leftPanel,text="\tOptions\t  Tech\tSectors", font=("Dosis",15,"bold"),bd=1,relief=FLAT,fg="black")
 optionsPanel.pack(side=LEFT)
 
 
@@ -229,10 +233,10 @@ for option in optionList:
     # Check Buttons
     optionsVariables.append("")
     optionsVariables[cont] = IntVar()
-    option = Checkbutton(optionsPanel,image=off_image,selectimage=on_image,indicatoron=False,text=option,font=("Arial",14,"bold"),onvalue=1,offvalue=0, variable=optionsVariables[cont],command=check_button)
+    option = Checkbutton(optionsPanel,image=off_image,selectimage=on_image,indicatoron=False,text=option,font=("Arial",11,"bold"),onvalue=1,offvalue=0, variable=optionsVariables[cont],command=check_button)
     option.grid(row=cont, column=0,sticky=W)  
     
-    title_option = Label(optionsPanel,text=optionList[cont],font=("Arial",14,"bold"),width=15) 
+    title_option = Label(optionsPanel,text=optionList[cont],font=("Arial",11,"bold"),width=15) 
     title_option.grid(row=cont,column=1,ipady=3,sticky=W)
     
     # Option Box 
@@ -246,7 +250,11 @@ for option in optionList:
     sectorBox.append("")
     sectorText.append("")
     sectorText[cont] =StringVar()
-    sectorText[cont].set("0")
+    print(optionList[cont])
+    if optionList[cont] == "Sin datos 5G":
+        sectorText[cont].set(" ")
+    else:
+        sectorText[cont].set("0")
     sectorBox[cont] = Entry(optionsPanel,font=("Arial",14,"bold"),bd=1,width=15,state=DISABLED,textvariable=sectorText[cont])
     sectorBox[cont].grid(row=cont,column=3,sticky=W)
 
@@ -357,7 +365,7 @@ enodeBoxCA.grid(row=1,column=4)
 
 numberSectorsTextCA =StringVar()
 numberSectorsTextCA.set("0")
-numberSectorsBoxCA = Entry(caPanel,font=("Arial",12,),bd=1,width=7,state=NORMAL,textvariable=numberSectorsTextCA)
+numberSectorsBoxCA = OptionMenu(caPanel,numberSectorsTextCA,*optionSector)
 numberSectorsBoxCA.grid(row=1,column=5)
 
 # CA Button Panel Configuration

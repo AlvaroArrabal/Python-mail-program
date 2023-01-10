@@ -250,9 +250,9 @@ for option in optionList:
     sectorBox.append("")
     sectorText.append("")
     sectorText[cont] =StringVar()
-    print(optionList[cont])
+    
     if optionList[cont] == "Sin datos 5G":
-        sectorText[cont].set(" ")
+        sectorText[cont].set("")
     else:
         sectorText[cont].set("0")
     sectorBox[cont] = Entry(optionsPanel,font=("Arial",14,"bold"),bd=1,width=15,state=DISABLED,textvariable=sectorText[cont])

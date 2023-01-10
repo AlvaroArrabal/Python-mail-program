@@ -72,6 +72,7 @@ def insert_photo(name):
 
 def write_mail():
     mailText.delete(1.0 ,END)
+    word._body.clear_content()
     now = time.strftime("%X")
     
     if now < str(12):
@@ -106,6 +107,7 @@ def save():
 
 def clean():
     mailText.delete(1.0,END)
+    word._body.clear_content()
     siteName.set("")
     techTextCA.set("0")
     otherTechTextCA.set("0")

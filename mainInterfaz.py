@@ -301,9 +301,11 @@ nodeTextSRVCC.set("0")
 nodeBoxSRVCC = Entry(srvccPanel,font=("Arial",12,),bd=1,width=9,state=NORMAL,textvariable=nodeTextSRVCC)
 nodeBoxSRVCC.grid(row=1,column=2)
 
+optionSector =["1","2","3","4"]
+
 numberSectorsTextSRVCC =StringVar()
 numberSectorsTextSRVCC.set("0")
-numberSectorsBoxSRVCC = Entry(srvccPanel,font=("Arial",12,),bd=1,width=9,state=NORMAL,textvariable=numberSectorsTextSRVCC)
+numberSectorsBoxSRVCC = OptionMenu(srvccPanel,numberSectorsTextSRVCC,*optionSector)
 numberSectorsBoxSRVCC.grid(row=1,column=3)
 
 # SRVCC Button Panel Configuration

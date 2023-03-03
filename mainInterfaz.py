@@ -76,7 +76,18 @@ def write_mail():
     mailText.delete(1.0 ,END)
     word._body.clear_content()
     now = time.strftime("%X")
-    
+
+    if emailFor.get() == "Hua":
+        f = open("emailHUAWEI.txt","r")
+        emails = f.read()
+        mailText.insert(END,emails)
+        mailText.insert(END,"\n--------------------------------------------\n\n")
+    elif emailFor.get() == "3DB":
+        f = open("email3DB.txt","r")
+        emails = f.read()
+        mailText.insert(END,emails)
+        mailText.insert(END,"\n--------------------------------------------\n\n")
+
     if now < str(12):
         mailText.insert(END,"Buenos días,\n")
         word.add_paragraph("Buenos días,")
@@ -188,6 +199,16 @@ siteName =StringVar()
 siteName.set("")
 siteNameBox = Entry(sitePanel,font=("Arial",14),bd=1,width=15,state=NORMAL,textvariable=siteName)
 siteNameBox.grid(row=1,column=1)
+
+emailTitle = Label(sitePanel,text="Email",fg="black",font=("Dosis",14,"bold"),bg="gray",width=10) 
+emailTitle.grid(row=1,column=2)
+
+emailOptions = ["Hua","3DB","Non"]
+
+emailFor =StringVar()
+emailFor.set("Non")
+emailForBox = OptionMenu(sitePanel,emailFor,*emailOptions)
+emailForBox.grid(row=1,column=3)
 
 # App Left
 leftPanel = Frame(app,bd=2,relief=FLAT)

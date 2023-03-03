@@ -132,15 +132,22 @@ def clean():
         i.set(0)
 
 optionList =[  
+            "ICM Band",
+            "RTWP", 
             "PUSCH",
             "RSSI",
+            "Speech Discon.(3dB)",
+            "3G Ending 2G (3dB)",
             "Sin MIMO Rank2",
             "MIMO Rank2 Bajo",
             "Sin MIMO Rank4",
             "MIMO Rank4 Bajo",
+            "CSFallBack",
             "CA PCELL",
             "CA SCELL",
             "SRVCC",
+            "Sin llamadas 2G",
+            "Sin llamadas 3G",
             "Sin llamadas 4G",
             "Sin tráfico 5G" ,
             "Sin datos 5G"
@@ -152,10 +159,10 @@ buttonsList = ["Write","Save","Clean"]
 app = Tk()
 
 # Windows configuration
-app.geometry("960x610+0+0")
+app.geometry("950x680+0+0")
 app.resizable(0,0)
 app.title("C44 - Mail generator")
-app.config(bg="white")
+app.config(bg="WhiteSmoke")
 small_icon = PhotoImage(file=".\\images\\iconC44.png")
 big_icon = PhotoImage(file=".\\images\\logoC44.png")
 app.iconphoto(False, big_icon, small_icon)
@@ -189,11 +196,7 @@ leftPanel.pack(side=LEFT)
 bottomPanel = Frame(leftPanel,bd=2,relief=FLAT)
 bottomPanel.pack(side=BOTTOM)
 
-srvccPanel = LabelFrame(bottomPanel,bd=2,relief=FLAT,bg="gray")
-srvccPanel.pack(side=BOTTOM)
 
-caPanel = LabelFrame(bottomPanel,bd=2,relief=FLAT,bg="gray")
-caPanel.pack(side=BOTTOM)
 
 optionsPanel = LabelFrame(leftPanel,text="\tOptions\t  Tech\tSectors", font=("Dosis",15,"bold"),bd=1,relief=FLAT,fg="black")
 optionsPanel.pack(side=LEFT)
@@ -202,6 +205,12 @@ optionsPanel.pack(side=LEFT)
 # App Right
 rightPanel = Frame(app,bd=2,relief=FLAT)
 rightPanel.pack(side=RIGHT)
+
+srvccPanel = LabelFrame(rightPanel,bd=2,relief=FLAT,bg="gray")
+srvccPanel.pack(side=BOTTOM)
+
+caPanel = LabelFrame(rightPanel,bd=2,relief=FLAT,bg="gray")
+caPanel.pack(side=BOTTOM)
 
 # Mail Panel
 mailPanel = Frame(rightPanel,bd=2,relief=FLAT,bg="black")
@@ -267,7 +276,7 @@ buttonsAux = []
 columns = 0
 
 for button in buttonsList:
-    button = Button(buttonsPanel,text=button,font=("Arial",13,"bold"),fg="black",bg="Gray",bd=2,width=14)
+    button = Button(buttonsPanel,text=button,font=("Arial",13,"bold"),fg="black",bg="Gray",bd=2,width=15)
     buttonsAux.append(button)
     button.grid(row=0,column=columns)
     columns += 1
@@ -277,7 +286,7 @@ buttonsAux[1].config(command = save)
 buttonsAux[2].config(command = clean)
 
 # Mail Panel Configuration
-mailText = Text(mailPanel,font=("Arial",10),fg="black",bd=3,width=63,height=30)
+mailText = Text(mailPanel,font=("Arial",10),fg="black",bd=3,width=66,height=26)
 mailText.grid(row=0,column=0)
 
 # SRVCC Panel Configuration

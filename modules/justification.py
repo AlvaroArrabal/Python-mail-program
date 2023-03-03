@@ -9,7 +9,14 @@ dic_problems = {"PUSCH" : "- Valores elevados de PUSCH",
                 "CA PCELL" : "- No hay valores de CA Pcell",
                 "CA SCELL" : "- No hay valores de CA Scell",
                 "Sin llamadas 4G":"- No hay llamadas iniciadas 4G",
-                "Sin datos 5G":"- No se obtienen datos sobre 5G de la banda "
+                "Sin datos 5G":"- No se obtienen datos sobre 5G de la banda ",
+                "ICM Band" : "- Valores elevados de ICM Band",
+                "RTWP" : "- Valores elevados de RTWP",
+                "Speech Discon.(3dB)":"- Valores elevados de Speech Disconnection 2G",
+                "3G Ending 2G (3dB)":"- Valores elevados de 3G calls ending in 2G",
+                "CSFallBack":"- Sin valores de CSFB",
+                "Sin llamadas 2G":"- No hay llamadas iniciadas 2G",
+                "Sin llamadas 3G":"- No hay llamadas iniciadas 3G",
                 }
 
 
@@ -48,11 +55,17 @@ def insert(sectors,techs,problem):
                 cont3 += 1
             cont2 += 1
         
-        if problem == "PUSCH" or problem == "RSSI" or problem == "Sin MIMO Rank2" or problem == "Sin MIMO Rank4" or problem == "MIMO Rank2 Bajo" or problem == "MIMO Rank4 Bajo" or problem == "Sin llamadas 4G":
+        if problem == "PUSCH" or problem == "RSSI" or problem == "Sin MIMO Rank2" or problem == "Sin MIMO Rank4" or problem == "MIMO Rank2 Bajo" or problem == "MIMO Rank4 Bajo" or problem == "Sin llamadas 4G" or problem == "Sin llamadas 3G" or problem == "RTWP" or problem == "ICM Band" or problem == "CSFallBack":
             textoAux += " Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?\n\n"
         if problem == "CA PCELL" or problem == "CA SCELL" or problem == "SRVCC":
             textoAux += " Por favor ¿podrían cargar el script adjunto?\n\n"
         if problem == "Sin tráfico 5G":
             textoAux += " Por favor ¿podrían comprobar que la configuración X2 es correcta?\n\n"
-
+        if problem == "Speech Discon.(3dB)":
+            textoAux += " Por favor ¿podrían comprobar que la definición del CORE es correcta?\n\n"
+        if problem == "3G Ending 2G (3dB)":
+            textoAux += " Por favor ¿podrían comprobar que las vecinas están correctamente definidas?\n\n"
+        if problem == "Sin llamadas 2G":
+            textoAux += " Por favor ¿podrían comprobar que la configuración del parámetro gcellospmap es correcta?\n\n"
+    
     return textoAux

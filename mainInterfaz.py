@@ -78,12 +78,12 @@ def write_mail():
     now = time.strftime("%X")
 
     if emailFor.get() == "Hua":
-        f = open("emailHUAWEI.txt","r")
+        f = open(".\\emails\\emailHUAWEI.txt","r")
         emails = f.read()
         mailText.insert(END,emails)
         mailText.insert(END,"\n--------------------------------------------\n\n")
     elif emailFor.get() == "3DB":
-        f = open("email3DB.txt","r")
+        f = open(".\\emails\\email3DB.txt","r")
         emails = f.read()
         mailText.insert(END,emails)
         mailText.insert(END,"\n--------------------------------------------\n\n")
@@ -150,17 +150,18 @@ optionList =[
             "Speech Discon.(3dB)",
             "3G Ending 2G (3dB)",
             "Sin MIMO Rank2",
-            "MIMO Rank2 Bajo",
             "Sin MIMO Rank4",
-            "MIMO Rank4 Bajo",
+            "MIMO Rank2 Bajo",
             "CSFallBack",
-            "CA PCELL",
-            "CA SCELL",
+            "CA PCELL(3dB)",
+            "CA SCELL(3dB)",
             "SRVCC",
             "Sin llamadas 2G",
             "Sin llamadas 3G",
             "Sin llamadas 4G",
-            "Sin tráfico 5G" ,
+            "Sin tráfico 5G",
+            "Inter SgNB HO 5G",
+            "Sin usuarios 5G",
             "Sin datos 5G"
             ]
 
@@ -263,10 +264,10 @@ for option in optionList:
     # Check Buttons
     optionsVariables.append("")
     optionsVariables[cont] = IntVar()
-    option = Checkbutton(optionsPanel,image=off_image,selectimage=on_image,indicatoron=False,text=option,font=("Arial",11,"bold"),onvalue=1,offvalue=0, variable=optionsVariables[cont],command=check_button)
+    option = Checkbutton(optionsPanel,image=off_image,selectimage=on_image,indicatoron=False,text=option,font=("Arial",8,"bold"),onvalue=1,offvalue=0, variable=optionsVariables[cont],command=check_button)
     option.grid(row=cont, column=0,sticky=W)  
     
-    title_option = Label(optionsPanel,text=optionList[cont],font=("Arial",11,"bold"),width=15) 
+    title_option = Label(optionsPanel,text=optionList[cont],font=("Arial",10,"bold"),width=15) 
     title_option.grid(row=cont,column=1,ipady=3,sticky=W)
     
     # Option Box 

@@ -6,8 +6,8 @@ dic_problems = {"PUSCH" : "- Valores elevados de PUSCH",
                 "Sin MIMO Rank2" : "- No hay valores de MIMO Rank2",
                 "MIMO Rank4 Bajo" : "- Valores bajos de MIMO Rank4",
                 "Sin MIMO Rank4" : "- No hay valores de MIMO Rank4",
-                "CA PCELL" : "- No hay valores de CA Pcell",
-                "CA SCELL" : "- No hay valores de CA Scell",
+                "CA PCELL(3dB)" : "- No hay valores de CA Pcell",
+                "CA SCELL(3dB)" : "- No hay valores de CA Scell",
                 "Sin llamadas 4G":"- No hay llamadas iniciadas 4G",
                 "Sin datos 5G":"- No se obtienen datos sobre 5G de la banda ",
                 "ICM Band" : "- Valores elevados de ICM Band",
@@ -17,6 +17,8 @@ dic_problems = {"PUSCH" : "- Valores elevados de PUSCH",
                 "CSFallBack":"- Sin valores de CSFB",
                 "Sin llamadas 2G":"- No hay llamadas iniciadas 2G",
                 "Sin llamadas 3G":"- No hay llamadas iniciadas 3G",
+                "Inter SgNB HO 5G":"- Degradación de Inter SgNB",
+                "Sin usuarios 5G":"- Sin usuarios 5G conectados"
                 }
 
 
@@ -55,11 +57,11 @@ def insert(sectors,techs,problem):
                 cont3 += 1
             cont2 += 1
         
-        if problem == "PUSCH" or problem == "RSSI" or problem == "Sin MIMO Rank2" or problem == "Sin MIMO Rank4" or problem == "MIMO Rank2 Bajo" or problem == "MIMO Rank4 Bajo" or problem == "Sin llamadas 4G" or problem == "Sin llamadas 3G" or problem == "RTWP" or problem == "ICM Band" or problem == "CSFallBack":
+        if problem == "PUSCH" or problem == "RSSI" or problem == "Sin MIMO Rank2" or  problem == "MIMO Rank2 Bajo" or problem == "MIMO Rank4 Bajo" or problem == "Sin llamadas 4G" or problem == "Sin llamadas 3G" or problem == "RTWP" or problem == "ICM Band" or problem == "CSFallBack" or problem == "Sin usuarios 5G":
             textoAux += " Por favor ¿podrían comprobar que la configuración es correcta o si hay alarmas?\n\n"
-        if problem == "CA PCELL" or problem == "CA SCELL" or problem == "SRVCC":
+        if problem == "SRVCC":
             textoAux += " Por favor ¿podrían cargar el script adjunto?\n\n"
-        if problem == "Sin tráfico 5G":
+        if problem == "Sin tráfico 5G" or problem == "Inter SgNB HO 5G":
             textoAux += " Por favor ¿podrían comprobar que la configuración X2 es correcta?\n\n"
         if problem == "Speech Discon.(3dB)":
             textoAux += " Por favor ¿podrían comprobar que la definición del CORE es correcta?\n\n"
@@ -67,5 +69,9 @@ def insert(sectors,techs,problem):
             textoAux += " Por favor ¿podrían comprobar que las vecinas están correctamente definidas?\n\n"
         if problem == "Sin llamadas 2G":
             textoAux += " Por favor ¿podrían comprobar que la configuración del parámetro gcellospmap es correcta?\n\n"
-    
+        if problem == "Sin MIMO Rank4":
+            textoAux += " Por favor ¿podrían comprobar que la configuración es correcta o si se trata de una configuración 2T2R?\n\n"
+        if problem == "CA PCELL(3dB)" or problem == "CA SCELL(3dB)":
+            textoAux += " Por favor ¿podrían cargar el script adjunto?||¿podrían comprobar que la configuración es correcta y si las frecuencias están correctamente definidas?\n\n"
+
     return textoAux
